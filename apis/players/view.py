@@ -173,3 +173,11 @@ class PlayersWordCloudView(PlayersViewWithQueryParam):
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_wordcloud(params=self.args)
+
+
+@ns.route('/<int:account_id>/refresh')
+class PlayersRefresh(Resource):
+    @ns.doc('Refresh player match history')
+    def post(self, account_id):
+        players = Players(account_id=account_id)
+        return players.post_player_refesh()

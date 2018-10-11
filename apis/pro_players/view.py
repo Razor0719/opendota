@@ -5,7 +5,7 @@ from apis.pro_players.pro_players import ProPlayers
 ns = Namespace('proPlayers')
 
 
-@ns.route('/')
+@ns.route()
 class ProPlayersView(Resource):
     @ns.doc(description='get all ProPlayers')
     def get(self):

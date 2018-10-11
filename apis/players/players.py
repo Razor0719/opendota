@@ -1,5 +1,5 @@
-from apis.entity import Entity
 from apis.client import Client, api_builder
+from apis.entity import Entity
 
 
 class Player(Entity):

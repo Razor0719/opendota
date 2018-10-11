@@ -1,5 +1,5 @@
-from apis.entity import Entity
 from apis.client import Client, api_builder
+from apis.entity import Entity
 
 
 class Match(Entity):
@@ -7,7 +7,7 @@ class Match(Entity):
 
 
 class Matches(object):
-    def __init__(self, match_id = None):
+    def __init__(self, match_id=None):
         self.client = Client()
         self.match_id = match_id
         self.uri = api_builder().matches(int(self.match_id))
