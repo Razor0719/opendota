@@ -1,3 +1,5 @@
+import time
+
 import requests
 
 
@@ -22,10 +24,29 @@ class api_builder(object):
     __repr__ = __str__
 
 
-class Client:
+class Client(object):
     opendota_root = 'https://api.opendota.com/api'
+    sec_count = 0
+    mon_count = 0
+
+    def check_request(self):
+        # TODO use redis
+        now = time.localtime(time.time())
+        if now.tm_sec == 0:
+            self.sec_count = 0
+        if now.tm_mday == 1:
+            self.mon_count = 0
+        if self.sec_count == 60:
+            return {'code': 403, 'message': 'please request 60 calls per minute'}
+        elif self.mon_count == 50000:
+            return {'code': 403, 'message': 'please request 50000 calls per month'}
+        else:
+            self.sec_count += 1
+            self.mon_count += 1
 
     def get(self, url, params=None):
+        self.check_request()
+
         response = requests.get(self.opendota_root + url, params=params)
         print('url: %s' % response.url)
         if response.status_code == 200:
