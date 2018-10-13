@@ -9,10 +9,10 @@ parser.add_argument('less_than_match_id', type=int, required=False,
                     help='Get matches with a match ID lower than this value')
 
 
-@ns.route()
+@ns.route('')
 @ns.param('less_than_match_id', 'Get matches with a match ID lower than this value', )
 class ProPlayersView(Resource):
-    @ns.doc(description='get all ProPlayers')
+    @ns.doc(description='Get list of pro matches')
     def get(self):
         args = parser.parse_args()
         print(args)

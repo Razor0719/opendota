@@ -7,7 +7,7 @@ ns = Namespace('matches')
 
 @ns.route('/<int:match_id>')
 class MatchesView(Resource):
-    @ns.doc(description='get all ProPlayers')
+    @ns.doc(description='Match data')
     def get(self, match_id):
         matches = Matches(match_id)
         return matches.get_match()

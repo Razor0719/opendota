@@ -46,7 +46,7 @@ common_parser.add_argument('sort', required=False,
 
 @ns.route('/<int:account_id>')
 class PlayersView(Resource):
-    @ns.doc(description='get a player')
+    @ns.doc(description='Player data')
     def get(self, account_id):
         players = Players(account_id=account_id)
         return players.get_player()
@@ -85,7 +85,7 @@ class PlayersViewWithQueryParam(Resource):
 
 @ns.route('/<int:account_id>/wl')
 class PlayersWlView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player wl')
+    @ns.doc(description='Win/Loss count')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_wl(params=self.args)
@@ -93,7 +93,7 @@ class PlayersWlView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/recentMatches')
 class PlayersRecentMatchesView(Resource):
-    @ns.doc(description='get a player recentMatches')
+    @ns.doc(description='Recent matches played')
     def get(self, account_id):
         players = Players(account_id=account_id)
         return players.get_player_recentMatches()
@@ -102,7 +102,7 @@ class PlayersRecentMatchesView(Resource):
 @ns.route('/<int:account_id>/matches')
 @ns.param('project', 'Fields to project (array)')
 class PlayersMatchesView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player matches')
+    @ns.doc(description='Matches played')
     def get(self, account_id):
         parser = common_parser.copy()
         parser.add_argument('project', required=False,
@@ -113,7 +113,7 @@ class PlayersMatchesView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/heroes')
 class PlayersHeroesView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player heroes')
+    @ns.doc(description='Heroes played')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_heroes(params=self.args)
@@ -121,7 +121,7 @@ class PlayersHeroesView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/peers')
 class PlayersPeersView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player peers')
+    @ns.doc(description='Players played with')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_peers(params=self.args)
@@ -129,7 +129,7 @@ class PlayersPeersView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/pros')
 class PlayersProsView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player pros')
+    @ns.doc(description='Pro players played with')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_pros(params=self.args)
@@ -137,7 +137,7 @@ class PlayersProsView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/totals')
 class PlayersTotalsView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player totals')
+    @ns.doc(description='Totals in stats')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_totals(params=self.args)
@@ -145,7 +145,7 @@ class PlayersTotalsView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/counts')
 class PlayersCountsView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player counts')
+    @ns.doc(description='Counts in categories')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_counts(params=self.args)
@@ -153,7 +153,7 @@ class PlayersCountsView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/histograms/<string:field>')
 class PlayersHistogramsView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player histograms')
+    @ns.doc(description='Distribution of matches in a single stat')
     def get(self, account_id, field):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_histograms(field=field, params=self.args)
@@ -161,7 +161,7 @@ class PlayersHistogramsView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/wardmap')
 class PlayersWardmapView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player wardmap')
+    @ns.doc(description='Wards placed in matches played')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_wardmap(params=self.args)
@@ -169,15 +169,31 @@ class PlayersWardmapView(PlayersViewWithQueryParam):
 
 @ns.route('/<int:account_id>/wordcloud')
 class PlayersWordCloudView(PlayersViewWithQueryParam):
-    @ns.doc(description='get a player wordcloud')
+    @ns.doc(description='Words said/read in matches played')
     def get(self, account_id):
         super().get(account_id=account_id, parser=common_parser)
         return self.players.get_player_wordcloud(params=self.args)
 
 
+@ns.route('/<int:account_id>/ratings')
+class PlayersRatingsView(Resource):
+    @ns.doc('Player rating history')
+    def get(self, account_id):
+        players = Players(account_id=account_id)
+        return players.get_player_ratings()
+
+
+@ns.route('/<int:account_id>/rankings')
+class PlayersRatingsView(Resource):
+    @ns.doc('Player rankings history')
+    def get(self, account_id):
+        players = Players(account_id=account_id)
+        return players.get_player_rankings()
+
+
 @ns.route('/<int:account_id>/refresh')
 class PlayersRefresh(Resource):
-    @ns.doc('Refresh player match history')
+    @ns.doc(description='Refresh player match history')
     def post(self, account_id):
         players = Players(account_id=account_id)
         return players.post_player_refesh()

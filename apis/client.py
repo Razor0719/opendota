@@ -4,6 +4,9 @@ import requests
 
 
 # 链式调用
+from requests import RequestException
+
+
 class api_builder(object):
 
     def __init__(self, path=''):
@@ -47,12 +50,14 @@ class Client(object):
     def get(self, url, params=None):
         self.check_request()
 
-        response = requests.get(self.opendota_root + url, params=params)
-        print('url: %s' % response.url)
-        if response.status_code == 200:
+        try:
+            response = requests.get(self.opendota_root + url, params=params, timeout=10)
+            response.raise_for_status()
+        except RequestException as e:
+            return {'code': 500, 'message' : e}
+        finally:
+            print('url: %s' % response.url)
             return response.json()
-        else:
-            return {'code': response.status_code, 'message': response.content.decode()}
 
     def post(self, url, params=None):
         response = requests.post(self.opendota_root + url, params=params)
