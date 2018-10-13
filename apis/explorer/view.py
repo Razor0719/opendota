@@ -13,5 +13,6 @@ parser.add_argument('sql', required=False,
 class ExplorerView(Resource):
     @ns.doc(description='Submit arbitrary SQL queries to the database')
     def get(self):
+        args = parser.parse_args()
         explorer = Explorer()
-        return explorer.to_explorer()
+        return explorer.to_explorer(params=args)

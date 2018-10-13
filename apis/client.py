@@ -1,8 +1,6 @@
 import time
 
 import requests
-
-
 # 链式调用
 from requests import RequestException
 
@@ -49,15 +47,15 @@ class Client(object):
 
     def get(self, url, params=None):
         self.check_request()
-
         try:
             response = requests.get(self.opendota_root + url, params=params, timeout=10)
+            print(response.status_code)
             response.raise_for_status()
-        except RequestException as e:
-            return {'code': 500, 'message' : e}
-        finally:
             print('url: %s' % response.url)
             return response.json()
+        except RequestException as e:
+            print('e: ', e)
+            return {'code': 500, 'message': e.__str__()}
 
     def post(self, url, params=None):
         response = requests.post(self.opendota_root + url, params=params)

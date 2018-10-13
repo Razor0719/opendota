@@ -2,16 +2,16 @@ from apis.client import Client, api_builder
 from apis.entity import Entity
 
 
-class ExplorerEntity(Entity):
+class SearchEntity(Entity):
     pass
 
 
-class Explorer(object):
+class Search(object):
     def __init__(self):
         self.client = Client()
-        self.uri = api_builder().explorer()
+        self.uri = api_builder().search()
 
-    def to_explorer(self, params=None):
+    def search(self, params=None):
         uri = self.uri.path()
         result = self.client.get(uri, params=params)
         print(uri)
