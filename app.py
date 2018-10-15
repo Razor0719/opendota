@@ -12,6 +12,7 @@ from apis.distributions.view import ns as distributionsView
 from apis.search.view import ns as searchView
 from apis.rankings.view import ns as rankingsView
 from apis.benchmarks.view import ns as benchmarksView
+from apis.status.view import ns as statusView
 
 app = Flask(__name__)
 bp = Blueprint('OPEN DOTA', __name__, url_prefix='/api')
@@ -27,6 +28,7 @@ api.add_namespace(ns=distributionsView)
 api.add_namespace(ns=searchView)
 api.add_namespace(ns=rankingsView)
 api.add_namespace(ns=benchmarksView)
+api.add_namespace(ns=statusView)
 
 app.register_blueprint(bp)
 

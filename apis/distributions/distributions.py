@@ -14,5 +14,5 @@ class Distributions(object):
     def get_distributions(self):
         uri = self.uri.path()
         result = self.client.get(uri)
-        print(uri)
+
         return result

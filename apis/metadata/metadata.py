@@ -14,5 +14,5 @@ class Metadata(object):
     def get_metadata(self):
         uri = self.uri.path()
         result = self.client.get(uri)
-        print(uri)
+
         return result

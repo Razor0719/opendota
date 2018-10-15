@@ -14,5 +14,5 @@ class Explorer(object):
     def to_explorer(self, params=None):
         uri = self.uri.path()
         result = self.client.get(uri, params=params)
-        print(uri)
+
         return result
